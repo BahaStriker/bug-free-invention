@@ -1,56 +1,81 @@
-<x-guest-layout>
-    <x-auth-card>
-        <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
-        </x-slot>
-
-        <!-- Session Status -->
-        <x-auth-session-status class="mb-4" :status="session('status')" />
-
-        <!-- Validation Errors -->
-        <x-auth-validation-errors class="mb-4" :errors="$errors" />
-
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
-
-            <!-- Email Address -->
-            <div>
-                <x-label for="email" :value="__('Email')" />
-
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
+@extends('layouts.master')
+@section('content')
+<section class="breadcrumb-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb-content">
+                    <div class="breadcrumb-inner">
+                        <h2 class="breadcrumb__title">login.</h2>
+                        <ul class="breadcrumb__list">
+                            <li class="active__list-item"><a href="{{ route('home') }}">home</a></li>
+                            <li>login</li>
+                        </ul>
+                    </div>
+                    <div class="text-outline">login</div>
+                </div>
             </div>
+        </div>
+    </div>
+</section>
 
-            <!-- Password -->
-            <div class="mt-4">
-                <x-label for="password" :value="__('Password')" />
+<section class="form-shared">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-2"></div>
+            <div class="col-lg-8">
+                <div class="contact-form-action">
+                    <div class="form-heading text-center">
+                        <h3 class="form__title">Login to your account!</h3>
+                    </div>
+                    <form method="POST" action="{{ route('login') }}">
+                        @if($errors->any())
+                        @foreach ($errors->all() as $error)
+                        <div class="alert alert-danger" role="danger">
+                            <div class="alert alert-danger alert-dismissible alert-dismissible-2"
+                                data-animation="fadeOut" role="alert">
+                                {{ $error }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                                        <path class="heroicon-ui"
+                                            d="M16.24 14.83a1 1 0 0 1-1.41 1.41L12 13.41l-2.83 2.83a1 1 0 0 1-1.41-1.41L10.59 12 7.76 9.17a1 1 0 0 1 1.41-1.41L12 10.59l2.83-2.83a1 1 0 0 1 1.41 1.41L13.41 12l2.83 2.83z">
+                                        </path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        @endforeach
+                        @endif
+                        @csrf
+                        <div class="row">
+                            <div class="col-lg-12 col-sm-12 form-group">
+                                <input class="form-control" type="email" name="email" placeholder="Email">
+                            </div>
 
-                <x-input id="password" class="block mt-1 w-full"
-                                type="password"
-                                name="password"
-                                required autocomplete="current-password" />
+                            <div class="col-lg-12 col-sm-12 form-group">
+                                <input class="form-control" type="password" name="password" placeholder="Password">
+                            </div>
+
+                            <div class="col-lg-12 col-sm-12 col-xs-12 form-condition">
+                                <div class="custom-checkbox">
+                                    <input type="checkbox" id="chb1" name="remember" />
+                                    <label for="chb1">Remember Me</label>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12 col-sm-12 col-xs-12 form-group">
+                                <button class="theme-btn login-btn" type="submit">Login now</button>
+                            </div>
+
+                            <div class="col-lg-12 col-sm-12 col-xs-12 account-assist">
+                                <p class="account__desc">Not a member?<a href="{{ route('register') }}"> Register</a></p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-
-            <!-- Remember Me -->
-            <div class="block mt-4">
-                <label for="remember_me" class="inline-flex items-center">
-                    <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" name="remember">
-                    <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-                </label>
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
-                        {{ __('Forgot your password?') }}
-                    </a>
-                @endif
-
-                <x-button class="ml-3">
-                    {{ __('Login') }}
-                </x-button>
-            </div>
-        </form>
-    </x-auth-card>
-</x-guest-layout>
+            <div class="col-lg-2"></div>
+        </div>
+    </div>
+</section>
+@endsection
